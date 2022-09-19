@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.bharath.springcloud.security.UserDetailsServiceImpl;
 
-//@Configuration
+@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.mvcMatchers(HttpMethod.POST, "/getCoupon").hasAnyRole("USER", "ADMIN")
 				.mvcMatchers(HttpMethod.POST, "/couponapi/coupons", "/saveCoupon", "/getCoupon").hasRole("ADMIN")
 				.mvcMatchers("/", "/login", "/logout", "/showReg", "/registerUser").permitAll().anyRequest().denyAll()
-				.and().logout().logoutSuccessUrl("/");
+				.and().logout().logoutSuccessUrl("/").and().csrf().disable();
 
 	}
 
