@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.bharath.springcloud.security.UserDetailsServiceImpl;
 
-@Configuration
+//@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
