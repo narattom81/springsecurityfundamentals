@@ -11,10 +11,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.bharath.springcloud.security.UserDetailsServiceImpl;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -50,6 +54,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			};
 			c.configurationSource(cs);
 
+		});
+
+		http.csrf(c->{
+			c.ignoringAntMatchers("/couponapi/coupons/**");
+			//RequestMatcher r=new RegexRequestMatcher("/couponapi/coupons/{code:^[A-Z]*$}","POST");
+			RequestMatcher r=new MvcRequestMatcher(new HandlerMappingIntrospector(),"/getCoupon");
+			c.ignoringRequestMatchers(r);
 		});
 
 	}
