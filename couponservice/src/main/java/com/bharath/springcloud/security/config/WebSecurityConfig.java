@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.bharath.springcloud.security.UserDetailsServiceImpl;
 
-//@Configuration
+@Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -32,12 +32,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.mvcMatchers(HttpMethod.GET, "/couponapi/coupons/{code:^[A-Z]*$}", "/index", "/showGetCoupon",
 						"/getCoupon", "/couponDetails")
-				.hasAnyRole("USER", "ADMIN")
+				//.hasAnyRole("USER", "ADMIN")
+				.permitAll()
 				.mvcMatchers(HttpMethod.GET, "/showCreateCoupon", "/createCoupon", "/createResponse").hasRole("ADMIN")
 				.mvcMatchers(HttpMethod.POST, "/getCoupon").hasAnyRole("USER", "ADMIN")
 				.mvcMatchers(HttpMethod.POST, "/couponapi/coupons", "/saveCoupon", "/getCoupon").hasRole("ADMIN")
 				.mvcMatchers("/", "/login", "/logout", "/showReg", "/registerUser").permitAll().anyRequest().denyAll()
-				.and().logout().logoutSuccessUrl("/").and().csrf().disable();
+				.and().logout().logoutSuccessUrl("/");//.and().csrf().disable();
+
+
+		http.cors(c -> {
+			CorsConfigurationSource cs=request->{
+				CorsConfiguration cc=new CorsConfiguration();
+				cc.setAllowedOrigins(List.of("http://localhost:3000"));
+				cc.setAllowedMethods(List.of("GET"));
+				return cc;
+			};
+			c.configurationSource(cs);
+
+		});
 
 	}
 

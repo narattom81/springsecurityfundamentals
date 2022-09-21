@@ -14,7 +14,7 @@ import com.bharath.springcloud.repos.CouponRepo;
 
 @RestController
 @RequestMapping("/couponapi")
-@CrossOrigin
+//@CrossOrigin
 public class CouponRestController {
 
 	@Autowired
